@@ -21,10 +21,10 @@ Route::middleware('auth:sanctum')->middleware("unAuthHandle")->get('/user', func
     return $request->user();
 });
 
-Route::post("login", [LoginController::class, "login"]);
+Route::post("auth/login", [LoginController::class, "login"]);
 
 Route::group(["middleware" => ["unAuthHandle", "auth:sanctum"]], function () {
-    Route::get("logout", [LoginController::class, "logout"]);
+    Route::post("auth/logout", [LoginController::class, "logout"]);
     Route::get("fields", function () {
         return response()->json([
             "objects" => [
