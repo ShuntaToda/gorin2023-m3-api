@@ -17,32 +17,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware("unAuthHandle")->get('/user', function (Request $request) {
+Route::middleware("auth:sanctum")->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post("auth/login", [LoginController::class, "login"]);
 
-Route::group(["middleware" => ["unAuthHandle"]], function () {
+Route::middleware("auth:sanctum")->get("fields", function () {
+    return response()->json([
+        "objects" => [
+            [
+                1, 1, 1, 1, 1
+            ],
+            [
+                1, 2, 3, 0, 1
+            ],
+            [
+                1, 3, 0, 4, 1
+            ],
+            [
+                1, 1, 1, 1, 1
+            ],
+        ]
+    ]);
+});
+Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::post("auth/logout", [LoginController::class, "logout"]);
-    Route::get("fields", function () {
-        return response()->json([
-            "objects" => [
-                [
-                    1, 1, 1, 1, 1
-                ],
-                [
-                    1, 2, 3, 0, 1
-                ],
-                [
-                    1, 3, 0, 4, 1
-                ],
-                [
-                    1, 1, 1, 1, 1
-                ],
-            ]
-        ]);
-    });
 
     Route::get("results", function () {
         $results = Result::all();
