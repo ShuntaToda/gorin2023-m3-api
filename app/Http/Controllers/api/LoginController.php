@@ -35,7 +35,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        $request->user()->tokens()->delete();
+        // Auth::logout();
         $request->session()->flush();
         return response()->json(["success" => true]);
     }

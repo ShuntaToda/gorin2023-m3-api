@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->middleware("unAuthHandle")->get('/user', function (Request $request) {
+Route::middleware("unAuthHandle")->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post("auth/login", [LoginController::class, "login"]);
 
-Route::group(["middleware" => ["unAuthHandle", "auth:sanctum"]], function () {
+Route::group(["middleware" => ["unAuthHandle"]], function () {
     Route::post("auth/logout", [LoginController::class, "logout"]);
     Route::get("fields", function () {
         return response()->json([
